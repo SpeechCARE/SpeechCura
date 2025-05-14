@@ -139,11 +139,3 @@ You can visualize the spectrogram of an audio file using:
 ```python
 visualize_spectrogram("path/to/audio.wav")
 ```
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a pull request or open an issue.
-
-## License
-
-This project is licensed under the MIT License.
