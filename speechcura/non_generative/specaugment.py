@@ -69,7 +69,7 @@ class SpecAugment:
         """
         # Load the audio file
         waveform, sr = torchaudio.load(wav_file)
-        
+        waveform = waveform.to(self.device)
         # If the sample rate doesn't match the expected one, resample
         if sr != self.sample_rate:
             resampler = torchaudio.transforms.Resample(sr, self.sample_rate).to(self.device)
