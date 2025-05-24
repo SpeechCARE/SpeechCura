@@ -18,18 +18,14 @@ logger = logging.getLogger(__name__)
 class ContrastiveAugmentation:
     """
     Generates augmented samples by masking words in audio and transcription.
-    Can resample audio to a target sample rate.
+    Preserves the original sample rate of each audio file.
     """
 
-    def __init__(self, target_sample_rate: Optional[int] = 16000):
+    def __init__(self):
         """
         Initializes the ContrastiveAugmentation class.
-
-        Args:
-            target_sample_rate (Optional[int]): If provided, all processed audio files
-                will be resampled to this sample rate (in Hz). Defaults to 16000.
         """
-        self.target_sample_rate = target_sample_rate
+        pass
 
     def generate_negative_samples(
         self,
@@ -47,8 +43,7 @@ class ContrastiveAugmentation:
         1. Randomly selects 'p' percentage of words from the transcription.
         2. Replaces selected words in the transcription with '[MASK]'.
         3. Silences the corresponding segments in the audio.
-        4. If target_sample_rate is set, resamples the audio.
-        5. Saves the modified audio to 'output_dir'.
+        4. Saves the modified audio to 'output_dir' with original sample rate.
 
         Args:
             audio_path (str): Path to the original audio file.
@@ -91,13 +86,7 @@ class ContrastiveAugmentation:
                 f"Ensure FFmpeg/Libav is installed and accessible by pydub. Original error: {e}"
             )
 
-        if self.target_sample_rate and original_audio.frame_rate != self.target_sample_rate:
-            logger.info(f"Resampling {audio_path} from {original_audio.frame_rate}Hz to {self.target_sample_rate}Hz.")
-            try:
-                original_audio = original_audio.set_frame_rate(self.target_sample_rate)
-            except Exception as e:
-                logger.error(f"Error resampling audio {audio_path} to {self.target_sample_rate}Hz: {e}", exc_info=True)
-                raise RuntimeError(f"Error resampling audio {audio_path} to {self.target_sample_rate}Hz: {e}")
+        logger.info(f"Processing {audio_path} with original sample rate: {original_audio.frame_rate}Hz")
 
         output_dir_path = Path(output_dir)
         output_dir_path.mkdir(parents=True, exist_ok=True)
