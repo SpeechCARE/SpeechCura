@@ -3,5 +3,8 @@ torchaudio>=0.10.0
 numpy>=1.20.0
 matplotlib>=3.4.0
 scipy>=1.7.0
-pydub>=0.25.1
+soundfile>=0.12.1
 tqdm>=4.67.0
+ctranslate2<4.5.0
+whisperx>=3.2.0
+pydub>=0.25.1
